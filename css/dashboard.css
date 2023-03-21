@@ -1,0 +1,81 @@
+
+.dashboard {
+    width: 100%;
+    background-color: var(--primary-color);
+    min-height: var(--dashboard-height);
+    position: sticky;
+    top: 0;
+    left: 0;
+    padding: 20px 10px;
+    z-index: 100;
+}
+
+.dashboard .tools {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+.dashboard .tools .btn-ctrl {
+    font-size:  22px;
+    background-color: transparent;
+    border: 1px solid darkgrey;
+    color: #fff;
+    padding: 10px 15px;
+}
+
+.dashboard .tools .btn-ctrl:active {
+    transform: scale(.98);
+}
+
+.dashboard .tools .btn-ctrl:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+    
+}
+.dashboard .tools .btn-ctrl:disabled:active {
+    transform: scale(1);
+}
+
+.dashboard .tools .search-control {
+    position: relative;
+    max-width: 200px;
+}
+
+.dashboard .tools .search-control input[type="search"]{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    font-size: 18px;
+    padding: 10px 12px;
+    background-color: transparent;
+    border: 2px solid #ddd;
+    border-radius: 33px;
+    width: 0;
+    transition: width var(--speed) ease, opacity var(--speed) ease;
+    opacity: 0;
+    color: #fff;
+}
+
+.dashboard .tools .search-control input[type="search"]:focus {
+    outline: none;
+    border-color: #fff;
+}
+.dashboard .tools .search-control.active input[type="search"] {
+    min-width: 180px;
+    width: 100%;
+    opacity: 1;
+}
+
+.dashboard .tools .search-control .btn-search {
+    opacity: 1;
+    width: 100%;    
+}
+
+.dashboard .tools .search-control.active .btn-search {
+    opacity: 0;
+    width: 0;
+    width: fit-content;
+}
+

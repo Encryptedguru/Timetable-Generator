@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Roboto:wght@300&display=swap");
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+:root {
+	--primary-color: purple;
+	--text-color: #fff;
+    --speed: .75s;
+    --dashboard-height: 60px;
+}
+html {
+	scroll-behavior: smooth;
+}
+body {
+	font-family: "Inter", sans-serif;
+	font-family: "Roboto", sans-serif;
+    background-color: #f0e6e6;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* position: relative; */
+}
+
+img {
+    max-width: 100%;
+}
+
+.container {
+    width: 95%;
+	margin: 0 auto;
+    max-width: 1250px;
+    transition: margin-right var(--speed) linear;
+    /* overflow: auto; */
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    border: 0;
+
+}
+
+button:focus {
+    outline: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p, a {
+    padding: 6px 0;
+    margin: 3px 0;
+}
+
+.text-primary {
+    color: var(--primary-color);
+}

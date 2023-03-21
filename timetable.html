@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Timetable Generator | Create and Manage Schedules Online</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; font-src 'self' fonts.googleapis.com fonts.gstatic.com;"> -->
+
+    <meta name="description" content="Create and manage your schedules easily with our online timetable generator. Customize your schedule with our easy-to-use tools and share it with your team in seconds.">
+    <meta name="keywords" content="Timetable, Schedule, Generator, Online, Tool">
+    <meta property="og:title" content="Timetable Generator | Create and Manage Schedules Online">
+    <meta property="og:description" content="Create and manage your schedules easily with our online timetable generator. Customize your schedule with our easy-to-use tools and share it with your team in seconds.">
+    <meta property="og:image" content="https://www.timetablegenerator.com/logo.jpg">
+    <link rel="canonical" href="https://www.timetablegenerator.com/timetable.html">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/reset.css">
+        <link rel="stylesheet" href="./css/timetable.css">
+        <link rel="stylesheet" href="./css/dashboard.css">
+        <link rel="shortcut icon" href="./resources/favicon.png" type="image/x-icon">
+    
+    </head>
+    <body>
+        <div class="dashboard">
+            <div class="tools">
+                <a class="home btn-ctrl" href="./index.html" title="Home">🏠</a>
+                <button class="add-subject btn-ctrl" onclick="createModal('subject')" title="Add Subject">📖 ➕</button>
+              <button class="add-teacher btn-ctrl" onclick="createModal('teacher')" title="Add Teacher">👨‍🏫 ➕</button>
+              <button class="btn-ctrl btn-settings" onclick="createModal('settings')" title="Settings">⚙</button>
+              <button class="btn-ctrl btn-view-teachers" onclick="createModal('teachers')" title="View Teachers">👨‍🏫👩‍🏫</button>
+              <button class="btn-ctrl btn-generate" onclick="getTimetable()" title="Generate Timetable">🧬</button>
+              <button class="btn-ctrl btn-save" onclick="saveTimeTable('timetable', 'ls')" title="Save timeTable" disabled  id="save-btn">💾</button>
+              <button class="btn-ctrl btn-generate" onclick="downloadTimetable('timetable', 'excel2')" title="DownLoad Timetable Excel" disabled id="download-btn">🔽</button>
+              <button class="btn-ctrl btn-display" onclick="viewTimeTable()" title="View Saved Timetable">✡</button>
+              <button class="btn-ctrl btn-undo" onclick="undo()" title="Undo" disabled id="undo-btn">🔁</button>
+              <div class="search-control">
+                  <button class="btn-ctrl btn-search">🔍</button>
+                  <input type="search" placeholder="🔎">
+              </div>
+
+            </div>
+        </div>
+        <div class="modal-container">
+            <button class="button cancel-btn" onclick="removeModal()">✖</button>
+
+        </div>
+        <div class="container">
+            <div class="timetable"></div>
+            
+        </div>
+        <aside class="draggable-container">
+             <button class="cancel-btn-aside">✖</button>
+            <div class="tweak-tool" title="tweak-tool">🛠</div>
+            <ul class="list-subjects">
+                <h3>No Subjects Yet</h3>
+            </ul>
+        </aside>
+
+        <script src="./timetabledashboard.js"></script>
+        <script src="./timetabledown.js"></script>
+        <script src="./timetablecss.js"></script>
+        <script src="./timetable.js"></script>
+        <script src="./timetableDom.js"></script>
+    </body>
+</html>
