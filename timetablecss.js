@@ -7,6 +7,7 @@ const searchInput = searchControl.querySelector("input[type=search]");
 const saveBtn = document.getElementById("save-btn")
 const downLoadBtn = document.getElementById("download-btn")
 const  undoBtn = document.getElementById("undo-btn");
+const generateBtn = document.querySelector(".btn-generate")
 
 
 

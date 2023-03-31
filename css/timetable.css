@@ -103,6 +103,7 @@ tr:nth-of-type(odd) {
 }
 td {
 	padding: 7px;
+    font-weight: 600;
 }
 td span {
 	margin-left: 5px;

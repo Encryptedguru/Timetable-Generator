@@ -12,7 +12,7 @@ function displayTimeTable(undoList, type) {
         undoList.pop();
         sessionStorage.setItem("undoList", JSON.stringify(undoList));
     }
-    // indicateCollisions(document.getElementById("timetable"), settings.noOfClasses)
+    indicateCollisions(document.getElementById("timetable"), settings.noOfClasses * settings.streams.length)
 }
 //creating the draggable subjects to manually tweak the timetable
 function displayDraggbleSubjects(subjects, parent) {
@@ -94,6 +94,7 @@ function buildDOM(days, parent) {
                     htmlCont.scrollTop = htmlCont.scrollHeight - window.innerHeight
                 } 
          }
+         generateBtn.disabled = false
     }
 
     //save fo undo
@@ -106,23 +107,29 @@ function buildDOM(days, parent) {
 
  function getTimetable() {
     document.body.appendChild(spinner)
+    generateBtn.disabled = true
 
     let {noOfClasses, noOfDaysPerWeek, noOfLessonsPerDay, streams, level, days} = settings;
  
     if(!noOfClasses || !noOfDaysPerWeek || !noOfLessonsPerDay || !streams || !level || !days || !subjectsTaught || !teachers) {
         spinner.remove();
         sendAlert("danger", "Finish setting up settings to generate timetable ");
+        generateBtn.disabled = false
         return;
     }
     if(teachers.length < settings.noOfClasses * settings.streams.length) {
         setTimeout(() => {
             spinner.remove()
             sendAlert("danger", "Could not generate timetable add more teachers")
-
+        generateBtn.disabled = false
+               
         }, 1000)
         return
     }
-    teachersGrid = assignTeachersToClasses(subjectsTaught.map(subject => subject.title), settings.noOfClasses, settings.streams)
+     sessionStorage.setItem("teachersGrid", JSON.stringify(formatTGridForStorage(assignTeachersToClasses(subjectsTaught.map(subject => subject.title), settings.noOfClasses, settings.streams))))
+    
+
+    teachersGrid = formatTeachersGrid(JSON.parse(sessionStorage.getItem("teachersGrid")))
     
     
     const timeTable = generateTimeTable(noOfLessonsPerDay, noOfDaysPerWeek, days)
@@ -133,6 +140,8 @@ function buildDOM(days, parent) {
         setTimeout(() => {
             spinner.remove()
             sendAlert("danger", timeTable.message)
+        generateBtn.disabled = false
+
         }, 3000)
         return
      }
@@ -145,7 +154,7 @@ function buildDOM(days, parent) {
         spinner.remove()
         buildDOMWritter(formatTimetableData(timeTable.timeTable), document.querySelector(".container"));
         enableCtrs();
-
+            
         
     }, 4000)
 
@@ -207,10 +216,11 @@ function dragOver(e) {
 function drop(e, idx) {
 
     e.preventDefault();
+    let target;
     try {
         let storedTimetable = JSON.parse(localStorage.getItem("timetable"));
 
-      let target =  e.target.nodeName.toLowerCase() == "span" ? e.target.parentElement.parentElement : e.target.parentElement;
+       target =  e.target.nodeName.toLowerCase() == "span" ? e.target.parentElement.parentElement : e.target.parentElement;
 
 
      //works if dragged from dragBox
@@ -254,6 +264,7 @@ function drop(e, idx) {
     let clas = currTr[0].innerText.toLowerCase();
 
 
+
     tr[dragConfig["idx"]].innerHTML = `<td>
     ${subject}
     <span>${getTeacherCode(dragConfig["clas"], subject)}</span>
@@ -265,31 +276,19 @@ function drop(e, idx) {
             <span>${getTeacherCode(clas, dragConfig["subject"])}</span>
         </td>
     `
-    
-
-    
-
-    //add dom border to indicate what changed
-     changedDom(currTr[idx], "cyan")
-     changedDom(tr[dragConfig["idx"]], "cyan")
-
-    
-     //idicate duplicate if any;
-        duplicate(target);
-        duplicate(document.getElementById(dragConfig.id))
-
-
-    //save for undo list
-    saveTimeTable("timetable", "undo")
-
-        
+            
     } catch (error) {
         
         console.log(error)
     } finally {
         
+        //save for undo list
+    saveTimeTable("timetable", "undo")
         //indicate collisions
-    indicateCollisions(document.querySelector("table"), settings.noOfClasses * settings.streams.length)
+    indicateCollisions(document.querySelector("table"), settings.noOfClasses * settings.streams.length);
+
+    duplicate(target);
+    duplicate(document.getElementById(dragConfig["id"]))
     //reset  drag Config
     dragConfig = Object.create(null); 
     }
@@ -483,14 +482,14 @@ function saveTimeTable(tableId, where) {
         }
         container.innerHTML = ""
         container.appendChild(newTable);
-        indicateCollisions(newTable, noOfClasses)
+        indicateCollisions(newTable, noOfClasses * streams.length)
         enableCtrs();
     }
 
 
     function undo() {
         displayTimeTable(undoList, "undo")
-        indicateCollisions(document.getElementById("timetable"), settings.noOfClasses)
+        indicateCollisions(document.getElementById("timetable"), settings.noOfClasses * settings.streams.length)
     }
 
 
@@ -614,5 +613,6 @@ function formatTeachersGrid(grid) {
 
 
 function getTeacherCode(clas, subject) {
+    
     return teachersGrid[clas].get(subject)
 }
